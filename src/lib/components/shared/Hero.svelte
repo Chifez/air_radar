@@ -1,36 +1,63 @@
-<script>
+<script lang="ts">
   import { MoveUpRight } from 'lucide-svelte';
   import { Button } from '../ui/button';
 
+  let HERO_IDX = $state(0);
+
   const links = [
     {
+      id: 1,
       country: 'United Kingdom',
-      mainBannerUrl: '/uk-one.jpg',
-      subBannerUrl: '/uk-one.jpg',
+      mainBannerUrl: '/uk-main.jpg',
+      subBannerUrl: '/uk-sub.jpg',
     },
     {
+      id: 2,
       country: 'Canada',
-      mainBannerUrl: '/uk-one.jpg',
-      subBannerUrl: '/uk-one.jpg',
+      mainBannerUrl: '/canada-main.jpg',
+      subBannerUrl: '/canada-sub.jpg',
     },
     {
+      id: 3,
       country: 'Indonesia',
-      mainBannerUrl: '/uk-one.jpg',
-      subBannerUrl: '/uk-one.jpg',
+      mainBannerUrl: '/ind-main.jpg',
+      subBannerUrl: '/ind-sub.jpg',
     },
-    {
-      country: 'France',
-      mainBannerUrl: '/uk-one.jpg',
-      subBannerUrl: '/uk-one.jpg',
-    },
+    // {
+    //   country: 'France',
+    //   mainBannerUrl: '/uk-one.jpg',
+    //   subBannerUrl: '/uk-one.jpg',
+    // },
   ];
+
+  //   $effect(()=>{
+
+  //   })
 </script>
 
 <section class="h-[80vh] mx-auto p-6">
   <div
-    style="background-image: url('/uk-one.jpg'); background-size: cover; background-position: center;"
+    style="background-image: url({links[HERO_IDX]
+      .mainBannerUrl}); background-size: cover; background-position: center;"
     class="relative rounded-3xl object-cover h-[80vh]"
   >
+    <div class="flex gap-2 absolute bottom-4 left-4">
+      {#each links as item, idx}
+        <button
+          style="background-image: url({item.mainBannerUrl}); background-size:cover; background-position:center"
+          class={`size-14 border ${HERO_IDX == idx ? 'border-black' : ''} rounded-full `}
+          onclick={() => (HERO_IDX = idx)}
+        >
+          <!-- {#if HERO_IDX == idx}
+            <div
+              class={`${HERO_IDX == idx ? 'flex items-center justify-center text-white absolute inset-0 bg-black rounded-full size-14' : ''}`}
+            >
+              ...
+            </div>
+          {/if} -->
+        </button>
+      {/each}
+    </div>
     <div>
       <span
         class="tag text-5xl font-bold font-mono absolute top-0 left-0 rounded-tl-3xl rounded-br-3xl"
@@ -53,12 +80,13 @@
       class="sub-tag rounded-tl-3xl rounded-br-3xl absolute pt-6 pl-6 flex items-center justify-center bottom-0 right-0 bg-white h-60 w-[23rem]"
     >
       <div
-        style="background-image: url('/uk-three.jpg'); background-size: cover; background-position: center;"
+        style="background-image: url({links[HERO_IDX]
+          .subBannerUrl}); background-size: cover; background-position: center;"
         class="relative w-full h-full rounded-3xl"
       >
         <div class="flex flex-col justify-between w-[70%] h-full px-10 py-4">
           <h1 class="text-white uppercase font-semibold text-lg">
-            United Kingdom
+            {links[HERO_IDX].country}
           </h1>
 
           <Button class="py-2 px-6 bg-white text-black">See more</Button>
