@@ -1,19 +1,53 @@
 <script lang="ts">
+  import { ArrowRight, Menu, Plane, X } from 'lucide-svelte';
   import Button from '../ui/button/button.svelte';
+
+  let open = $state(false);
 </script>
 
-<nav class="py-3 px-6 border-b">
+<nav class="py-3 px-6 md:px-10 border-b relative h-14">
   <div class="flex items-center justify-between">
-    <h1 class="text-lg font-bold uppercase">Peace.</h1>
+    <h1 class="font-oswald flex items-center gap-1 text-lg font-bold uppercase">
+      <Plane />
+      Peace.
+    </h1>
+
+    <button class="lg:hidden" onclick={() => (open = !open)}>
+      {#if open}
+        <X />
+      {:else}
+        <Menu />
+      {/if}
+    </button>
+
     <div
-      class=" cursor-pointer flex gap-4 list-none font-medium text-sm uppercase"
+      class={`z-20 p-6 space-y-8 absolute left-0 font-poppins cursor-pointer  lg:hidden list-none font-medium text-xs uppercase bg-white w-full h-screen transition ${open ? 'translate-y-0 top-14' : '-translate-y-[100%] -top-14'}`}
+    >
+      <!-- <button class="absolute top-2 right-2" onclick={() => (open = false)}>
+        <X />
+      </button> -->
+      <li class="text-gray-600 hover:text-black">Tracking</li>
+      <li class="text-gray-600 hover:text-black">Places</li>
+
+      <Button
+        class="font-poppins py-2 px-8 h-fit rounded-lg flex items-center gap-1"
+        >Booking
+        <ArrowRight />
+      </Button>
+    </div>
+
+    <!-- desktop nav -->
+    <div
+      class="hidden font-poppins cursor-pointer lg:flex gap-4 list-none font-medium text-xs uppercase"
     >
       <li class="text-gray-600 hover:text-black">Tracking</li>
       <li class="text-gray-600 hover:text-black">Places</li>
     </div>
 
-    <Button class="py-2 px-8 h-fit rounded-lg flex items-center gap-1"
+    <Button
+      class="hidden font-poppins py-2 px-8 h-fit rounded-lg lg:flex items-center gap-1"
       >Booking
+      <ArrowRight />
     </Button>
   </div>
 </nav>

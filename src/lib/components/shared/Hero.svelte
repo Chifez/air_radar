@@ -35,61 +35,73 @@
   //   })
 </script>
 
-<section class="h-[80vh] mx-auto p-6">
+<section class="h-[80vh] mx-auto py-6 px-6 md:px-10">
   <div
     style="background-image: url({links[HERO_IDX]
       .mainBannerUrl}); background-size: cover; background-position: center;"
-    class="relative rounded-3xl object-cover h-[80vh]"
+    class="relative rounded-md md:rounded-3xl object-cover h-[90vh] lg:h-[80vh]"
   >
-    <div class="flex gap-2 absolute bottom-4 left-4">
+    <div
+      class="flex flex-col md:flex-row gap-2 absolute bottom-4 left-1 md:left-4"
+    >
       {#each links as item, idx}
         <button
           style="background-image: url({item.mainBannerUrl}); background-size:cover; background-position:center"
-          class={`size-14 border ${HERO_IDX == idx ? 'border-black' : ''} rounded-full `}
+          class={`size-14 border relative ${HERO_IDX == idx ? 'border-black' : ''} rounded-full `}
           onclick={() => (HERO_IDX = idx)}
         >
-          <!-- {#if HERO_IDX == idx}
+          {#if HERO_IDX == idx}
             <div
-              class={`${HERO_IDX == idx ? 'flex items-center justify-center text-white absolute inset-0 bg-black rounded-full size-14' : ''}`}
+              class={` flex items-center font-medium justify-center text-white absolute inset-0 bg-black rounded-full size-14 ${HERO_IDX == idx ? 'bg-black' : 'bg-transparent'}`}
             >
               ...
             </div>
-          {/if} -->
+          {/if}
         </button>
       {/each}
     </div>
     <div>
       <span
-        class="tag text-5xl font-bold font-mono absolute top-0 left-0 rounded-tl-3xl rounded-br-3xl"
+        class="tag font-oswald text-lg md:text-4xl lg:text-5xl font-semibold absolute top-0 left-0 rounded-tl-3xl rounded-br-3xl"
       >
-        <div class="bg-white px-6 pb-4 pt-6 rounded-br-3xl">
+        <div
+          class="bg-white pr-3 md:pr-6 pb-4 pt-6 rounded-br-3xl lg:[word-spacing:10px]"
+        >
           <h1>EXPERIENCE THE RICHNESS OF GLOBAL</h1>
         </div>
-        <div class="bg-white px-6 pb-4 w-fit rounded-br-3xl title-tag relative">
+        <div
+          class="bg-white pr-3 md:pr-6 pb-4 w-fit rounded-br-3xl title-tag relative"
+        >
           <h1>EXPLORATION</h1>
         </div>
       </span>
     </div>
 
     <div
-      class="absolute flex items-center justify-center top-8 right-[18%] bg-white size-16 rounded-xl p-4"
+      class="absolute flex items-center justify-center top-24 right-[40%] md:top-3 md:right-3 lg:top-7 lg:right-[24%] bg-white size-16 rounded-xl p-4"
     >
       <MoveUpRight size={32} />
     </div>
     <div
-      class="sub-tag rounded-tl-3xl rounded-br-3xl absolute pt-6 pl-6 flex items-center justify-center bottom-0 right-0 bg-white h-60 w-[23rem]"
+      class="sub-tag rounded-tl-3xl rounded-br-3xl absolute pt-4 pl-4 md:pt-6 md:pl-6 flex items-center justify-center bottom-0 right-0 bg-white h-60 w-[16rem] md:w-[23rem]"
     >
       <div
         style="background-image: url({links[HERO_IDX]
           .subBannerUrl}); background-size: cover; background-position: center;"
         class="relative w-full h-full rounded-3xl"
       >
-        <div class="flex flex-col justify-between w-[70%] h-full px-10 py-4">
-          <h1 class="text-white uppercase font-semibold text-lg">
+        <div
+          class="flex flex-col justify-between w-fit md:w-[80%] h-full px-4 md:px-10 py-4"
+        >
+          <h1
+            class=" font-oswald text-white uppercase font-semibold text-xl md:text-2xl"
+          >
             {links[HERO_IDX].country}
           </h1>
 
-          <Button class="py-2 px-6 bg-white text-black">See more</Button>
+          <Button class="py-2 px-6 bg-white text-black font-poppins"
+            >See more</Button
+          >
         </div>
 
         <div

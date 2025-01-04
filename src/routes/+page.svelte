@@ -3,6 +3,11 @@
   import Hero from '$lib/components/shared/Hero.svelte';
 </script>
 
+<svelte:head>
+  <title>Peace | Home</title>
+  <meta name="Home" content="Explore the richness in global exploration" />
+</svelte:head>
+
 <div>
   <Navigation />
   <div>
