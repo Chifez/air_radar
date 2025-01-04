@@ -99,7 +99,7 @@
             {links[HERO_IDX].country}
           </h1>
 
-          <Button class="py-2 px-6 bg-white text-black font-poppins"
+          <Button class="py-2 px-6 bg-white text-black font-poppins rounded-xl"
             >See more</Button
           >
         </div>

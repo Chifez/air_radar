@@ -5,7 +5,7 @@
   let open = $state(false);
 </script>
 
-<nav class="py-3 px-6 md:px-10 border-b relative h-14">
+<nav class="py-3 px-6 md:px-10 border-b relative h-fit md:h-14">
   <div class="flex items-center justify-between">
     <h1 class="font-oswald flex items-center gap-1 text-lg font-bold uppercase">
       <Plane />
@@ -30,7 +30,7 @@
       <li class="text-gray-600 hover:text-black">Places</li>
 
       <Button
-        class="font-poppins py-2 px-8 h-fit rounded-lg flex items-center gap-1"
+        class="font-poppins py-2 px-8 h-fit rounded-xl flex items-center gap-1"
         >Booking
         <ArrowRight />
       </Button>
@@ -45,7 +45,7 @@
     </div>
 
     <Button
-      class="hidden font-poppins py-2 px-8 h-fit rounded-lg lg:flex items-center gap-1"
+      class="hidden font-poppins py-2 px-8 h-fit rounded-xl lg:flex items-center gap-1"
       >Booking
       <ArrowRight />
     </Button>
