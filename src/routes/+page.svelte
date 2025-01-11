@@ -14,7 +14,9 @@
   <Navigation />
   <div>
     <Hero />
-    <SearchFlights />
-    <TopFlights />
+    <div class="mt-14 pb-10 bg-slate-50">
+      <SearchFlights />
+      <TopFlights />
+    </div>
   </div>
 </div>

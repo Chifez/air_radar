@@ -40,8 +40,8 @@
     <div
       class="hidden font-poppins cursor-pointer lg:flex gap-4 list-none font-medium text-xs uppercase"
     >
-      <li class="text-gray-600 hover:text-black">Tracking</li>
-      <li class="text-gray-600 hover:text-black">Places</li>
+      <li class="text-gray-600 hover:text-black">Track Flight</li>
+      <li class="text-gray-600 hover:text-black">Popular</li>
     </div>
 
     <Button

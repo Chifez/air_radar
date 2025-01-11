@@ -1,17 +1,55 @@
 <script>
+  import { Plane } from 'lucide-svelte';
+
   let flight = [1, 2, 4, 5, 6];
 </script>
 
 <section class="px-6 md:px-10 space-y-4">
   <p class="font-bold text-lg">Top flights</p>
-  <div
-    class="grid grid-cols-3 items-center justify-between gap-4 border border-black rounded-2xl"
-  >
+  <div class="grid grid-cols-3 items-center justify-between gap-8 rounded-2xl">
     {#each flight as flight, idx}
-      <div class="flex-1 h-52 border rounded-xl border-blue-500">
-        <p>flight image</p>
-        <p>flight description</p>
-        <p>fligth pricing</p>
+      <div class="group flex-1 h-72 rounded-xl overflow-hidden bg-white">
+        <div class="relative w-full h-[65%]">
+          <img
+            src="/ind-main.jpg"
+            alt="banner"
+            class="object-cover w-full h-full"
+          />
+          <span
+            class="absolute left-0 top-2 bg-white font-bold rounded-tr-md rounded-br-md px-2 py-1 text-xs text-blue-400 uppercase"
+          >
+            Bussiness class
+          </span>
+        </div>
+        <div class="space-y-4">
+          <span class="flex justify-between p-2">
+            <p class="text-sm">Jakarta <strong>(CGK)</strong></p>
+            <div class="relative flex-1 flex items-center justify-center">
+              <span
+                class="absolute invisible group-hover:visible w-full border-[1.5px] border-dashed border-gray-400"
+              ></span>
+              <Plane
+                fill="#1d4ed8"
+                strokeWidth={0}
+                class="rotate-45"
+                size={20}
+              />
+            </div>
+            <p class="text-sm">Paris <strong>(CDG)</strong></p>
+          </span>
+          <span
+            class="flex items-center justify-between p-2 bg-blue-400/30 rounded-md mx-2"
+          >
+            <Plane size={18} />
+
+            <p class="gap-8 font-black text-blue-500 text-xl italic">
+              <sup class="text-sm not-italic font-normal text-gray-400"
+                >from</sup
+              >
+              $232
+            </p>
+          </span>
+        </div>
       </div>
     {/each}
   </div>
