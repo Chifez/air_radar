@@ -26,8 +26,8 @@
       <!-- <button class="absolute top-2 right-2" onclick={() => (open = false)}>
         <X />
       </button> -->
-      <li class="text-gray-600 hover:text-black">Tracking</li>
-      <li class="text-gray-600 hover:text-black">Places</li>
+      <li class="text-gray-600 hover:text-black">Track Flight</li>
+      <li class="text-gray-600 hover:text-black">Popular</li>
 
       <Button
         class="font-poppins py-2 px-8 h-fit rounded-xl flex items-center gap-1"
