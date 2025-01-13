@@ -73,7 +73,7 @@
   }
 </script>
 
-<section class="px-6 md:px-20 space-y-4">
+<section class="px-6 md:px-20 mb-32 space-y-4">
   <p class="font-bold text-lg">Top flights</p>
   <div class="grid grid-cols-3 items-center justify-between gap-8 rounded-2xl">
     {#each flight as _, idx}
