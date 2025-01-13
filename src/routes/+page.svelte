@@ -3,6 +3,7 @@
   import Hero from '$lib/components/shared/Hero.svelte';
   import SearchFlights from '$lib/components/SearchFlights.svelte';
   import TopFlights from '$lib/components/TopFlights.svelte';
+  import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -18,5 +19,6 @@
       <SearchFlights />
       <TopFlights />
     </div>
+    <Footer />
   </div>
 </div>

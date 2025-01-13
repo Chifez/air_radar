@@ -149,7 +149,7 @@
   .plane {
     position: absolute;
     transform-origin: center;
-    transition: transform 2s ease-in-out;
+    transition: all 2s ease-in-out;
     opacity: 1;
     transform: translate(0, 0) rotate(45deg);
   }
