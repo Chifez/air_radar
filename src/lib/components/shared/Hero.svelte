@@ -1,8 +1,16 @@
 <script lang="ts">
   import { MoveUpRight } from 'lucide-svelte';
   import { Button } from '../ui/button';
+  import { onMount } from 'svelte';
+  import { animate, stagger } from 'motion';
+  import SplitType from 'split-type';
 
   let HERO_IDX = $state(0);
+
+  let mainTag: any;
+  let subTag: any;
+  let countryTag;
+  let countryCTA;
 
   const links = [
     {
@@ -33,6 +41,28 @@
   //   $effect(()=>{
 
   //   })
+  onMount(() => {
+    const splitMain = new SplitType(mainTag, { lineClass: 'overflow-hidden' });
+    const splitSub = new SplitType(subTag, { lineClass: 'overflow-hidden' });
+    const mainAnimate = [
+      splitMain.words,
+      { y: ['150%', '0%'] },
+      { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
+    ];
+    const subAnimate = [
+      splitSub.words,
+      { y: ['150%', '0%'] },
+      {
+        delay: stagger(0.1),
+        duration: 1,
+        easing: ['0.62,-0.01, 0.37,0.99'],
+      },
+    ];
+
+    const sequence = [mainAnimate, subAnimate];
+    animate(sequence);
+    console.log('tags', mainTag, subTag);
+  });
 </script>
 
 <section class="h-[80vh] mx-auto py-6 px-6 md:px-10">
@@ -67,12 +97,12 @@
         <div
           class="bg-white pr-3 md:pr-6 pb-4 pt-6 rounded-br-3xl lg:[word-spacing:10px]"
         >
-          <h1>EXPERIENCE THE RICHNESS OF GLOBAL</h1>
+          <h1 bind:this={mainTag}>EXPERIENCE THE RICHNESS OF GLOBAL</h1>
         </div>
         <div
           class="bg-white pr-3 md:pr-6 pb-4 w-fit rounded-br-3xl title-tag relative"
         >
-          <h1>EXPLORATION</h1>
+          <h1 bind:this={subTag} class="">EXPLORATION</h1>
         </div>
       </span>
     </div>
@@ -94,13 +124,15 @@
           class="flex flex-col justify-between w-fit md:w-[80%] h-full px-4 md:px-10 py-4"
         >
           <h1
+            bind:this={countryTag}
             class=" font-oswald text-white uppercase font-semibold text-xl md:text-2xl"
           >
             {links[HERO_IDX].country}
           </h1>
 
-          <Button class="py-2 px-6 bg-white text-black font-poppins rounded-xl"
-            >See more</Button
+          <Button
+            class="py-2 px-6 bg-white text-black font-poppins rounded-xl"
+            bind:this={countryCTA}>See more</Button
           >
         </div>
 
