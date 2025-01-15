@@ -1,17 +1,15 @@
 <script lang="ts">
   import { MoveUpRight } from 'lucide-svelte';
   import { Button } from '../ui/button';
-  import { onMount } from 'svelte';
-  import { animate, stagger } from 'motion';
-  import SplitType from 'split-type';
 
   let HERO_IDX = $state(0);
 
-  let mainTag: any;
-  let subTag: any;
-  let countryTag;
-  let countryCTA;
-
+  let {
+    mainTag = $bindable(),
+    subTag = $bindable(),
+    countryTag = $bindable(),
+    countryCTA = $bindable(),
+  } = $props();
   const links = [
     {
       id: 1,
@@ -31,38 +29,7 @@
       mainBannerUrl: '/ind-main.jpg',
       subBannerUrl: '/ind-sub.jpg',
     },
-    // {
-    //   country: 'France',
-    //   mainBannerUrl: '/uk-one.jpg',
-    //   subBannerUrl: '/uk-one.jpg',
-    // },
   ];
-
-  //   $effect(()=>{
-
-  //   })
-  onMount(() => {
-    const splitMain = new SplitType(mainTag, { lineClass: 'overflow-hidden' });
-    const splitSub = new SplitType(subTag, { lineClass: 'overflow-hidden' });
-    const mainAnimate = [
-      splitMain.words,
-      { y: ['150%', '0%'] },
-      { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
-    ];
-    const subAnimate = [
-      splitSub.words,
-      { y: ['150%', '0%'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-      },
-    ];
-
-    const sequence = [mainAnimate, subAnimate];
-    animate(sequence);
-    console.log('tags', mainTag, subTag);
-  });
 </script>
 
 <section class="h-[80vh] mx-auto py-6 px-6 md:px-10">
