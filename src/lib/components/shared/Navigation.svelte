@@ -7,10 +7,13 @@
 
 <nav class="py-3 px-6 md:px-10 border-b relative h-fit md:h-14">
   <div class="flex items-center justify-between">
-    <h1 class="font-oswald flex items-center gap-1 text-lg font-bold uppercase">
+    <a
+      href="/"
+      class="font-oswald flex items-center gap-1 text-lg font-bold uppercase"
+    >
       <Plane />
       Peace.
-    </h1>
+    </a>
 
     <button class="lg:hidden" onclick={() => (open = !open)}>
       {#if open}
@@ -26,8 +29,10 @@
       <!-- <button class="absolute top-2 right-2" onclick={() => (open = false)}>
         <X />
       </button> -->
-      <li class="text-gray-600 hover:text-black">Track Flight</li>
-      <li class="text-gray-600 hover:text-black">Popular</li>
+      <a href="/tracker">
+        <li class="text-gray-600 hover:text-black">Track</li>
+      </a>
+      <a href="/#"><li class="text-gray-600 hover:text-black">Popular</li></a>
 
       <Button
         class="font-poppins py-2 px-8 h-fit rounded-xl flex items-center gap-1"
@@ -40,8 +45,12 @@
     <div
       class="hidden font-poppins cursor-pointer lg:flex gap-4 list-none font-medium text-xs uppercase"
     >
-      <li class="text-gray-600 hover:text-black">Track Flight</li>
-      <li class="text-gray-600 hover:text-black">Popular</li>
+      <a href="/tracker">
+        <li class="text-gray-600 hover:text-black">Track Flight</li>
+      </a>
+      <a href="/#">
+        <li class="text-gray-600 hover:text-black">Popular</li>
+      </a>
     </div>
 
     <Button

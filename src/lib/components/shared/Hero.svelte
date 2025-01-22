@@ -34,9 +34,8 @@
 
 <section class="h-[80vh] mx-auto py-6 px-6 md:px-10">
   <div
-    style="background-image: url({links[HERO_IDX]
-      .mainBannerUrl}); background-size: cover; background-position: center;"
-    class="relative rounded-md md:rounded-3xl object-cover h-[90vh] lg:h-[80vh]"
+    class=" rounded-md md:rounded-3xl object-cover h-[90vh] lg:h-[80vh] bg-wrapper"
+    style="--bg-image: url({links[HERO_IDX].mainBannerUrl})"
   >
     <div
       class="flex flex-col md:flex-row gap-2 absolute bottom-4 left-1 md:left-4"
@@ -59,7 +58,7 @@
     </div>
     <div>
       <span
-        class="tag font-oswald text-lg md:text-4xl lg:text-5xl font-semibold absolute top-0 left-0 rounded-tl-3xl rounded-br-3xl"
+        class="tag font-oswald text-lg md:text-4xl lg:text-5xl font-semibold rounded-tl-3xl rounded-br-3xl"
       >
         <div
           class="bg-white pr-3 md:pr-6 pb-4 pt-6 rounded-br-3xl lg:[word-spacing:10px]"
@@ -118,6 +117,35 @@
 </section>
 
 <style>
+  /* Add these new styles at the top */
+  .bg-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.7s ease;
+    z-index: 0;
+  }
+
+  .bg-wrapper:hover::before {
+    transform: scale(1.1);
+  }
+
+  .bg-wrapper > * {
+    position: absolute;
+    z-index: 1;
+  }
+
   .tag::before {
     content: '';
     position: absolute;

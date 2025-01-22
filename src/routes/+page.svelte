@@ -18,101 +18,135 @@
   let loaderPlane: any;
   let loaderContainer: any;
 
+  // let animationPlayed = false;
+
   onMount(() => {
+    const animationPlayed = sessionStorage.getItem('animationPlayed');
     const splitLoaderTag = new SplitType(loaderTag, {
       lineClass: 'overflow-hidden',
     });
-    const splitMain = new SplitType(mainTag, { lineClass: 'overflow-hidden' });
+    const splitMain = new SplitType(mainTag, {
+      lineClass: 'overflow-hidden',
+    });
     const splitSub = new SplitType(subTag, { lineClass: 'overflow-hidden' });
 
-    const revealLoader = [loaderContainer, { opacity: ['1'] }, { duration: 0 }];
-    const loaderTagAnimateIn = [
-      splitLoaderTag.words,
-      { y: ['100%', '0%'] },
-      { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
-    ];
-    const loaderTagAnimateOut = [
-      splitLoaderTag.words,
-      { y: ['-100%'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '+0.5',
-      },
-    ];
+    if (!animationPlayed) {
+      // animationPlayed = true;
+      sessionStorage.setItem('animationPlayed', 'true');
 
-    const loaderPlaneAnimateIn = [
-      loaderPlane,
-      { opacity: ['0', '1'] },
-      { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
-    ];
+      const revealLoader = [
+        loaderContainer,
+        { opacity: ['1'] },
+        { duration: 0 },
+      ];
+      const loaderTagAnimateIn = [
+        splitLoaderTag.words,
+        { y: ['100%', '0%'] },
+        { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
+      ];
+      const loaderTagAnimateOut = [
+        splitLoaderTag.words,
+        { y: ['-100%'] },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '+0.5',
+        },
+      ];
 
-    const loaderPlaneRotate = [
-      loaderPlane,
-      { rotate: -90 },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '<',
-      },
-    ];
-    const loaderPlaneAnimateOut = [
-      loaderPlane,
-      { rotate: -90, y: ['-1000%'], x: ['-1000%'], opacity: ['0'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '+0.5',
-      },
-    ];
+      const loaderPlaneAnimateIn = [
+        loaderPlane,
+        { opacity: ['0', '1'] },
+        { delay: stagger(0.1), duration: 1, easing: ['0.62,-0.01, 0.37,0.99'] },
+      ];
 
-    const loaderBGAnimate = [
-      loaderBG,
-      { y: ['0', '-100%'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '<',
-      },
-    ];
-    const mainAnimate = [
-      splitMain.words,
-      { y: ['150%', '0%'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '-0.35',
-      },
-    ];
-    const subAnimate = [
-      splitSub.words,
-      { y: ['150%', '0%'] },
-      {
-        delay: stagger(0.1),
-        duration: 1,
-        easing: ['0.62,-0.01, 0.37,0.99'],
-        at: '<',
-      },
-    ];
+      const loaderPlaneRotate = [
+        loaderPlane,
+        { rotate: -90 },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '<',
+        },
+      ];
+      const loaderPlaneAnimateOut = [
+        loaderPlane,
+        { rotate: -90, y: ['-1000%'], x: ['-1000%'], opacity: ['0'] },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '+0.5',
+        },
+      ];
 
-    const sequence = [
-      revealLoader,
-      loaderTagAnimateIn,
-      loaderPlaneAnimateIn,
-      loaderTagAnimateOut,
-      loaderPlaneRotate,
-      loaderPlaneAnimateOut,
-      loaderBGAnimate,
-      mainAnimate,
-      subAnimate,
-    ];
-    animate(sequence);
-    console.log('tags', mainTag, subTag);
+      const loaderBGAnimate = [
+        loaderBG,
+        { y: ['0', '-100%'] },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '<',
+        },
+      ];
+      const mainAnimate = [
+        splitMain.words,
+        { y: ['150%', '0%'] },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '-0.35',
+        },
+      ];
+      const subAnimate = [
+        splitSub.words,
+        { y: ['150%', '0%'] },
+        {
+          delay: stagger(0.1),
+          duration: 1,
+          easing: ['0.62,-0.01, 0.37,0.99'],
+          at: '<',
+        },
+      ];
+
+      const sequence = [
+        revealLoader,
+        loaderTagAnimateIn,
+        loaderPlaneAnimateIn,
+        loaderTagAnimateOut,
+        loaderPlaneRotate,
+        loaderPlaneAnimateOut,
+        loaderBGAnimate,
+        mainAnimate,
+        subAnimate,
+      ];
+      animate(sequence);
+      console.log('tags', mainTag, subTag);
+    } else {
+      const loaderBGAnimate = [loaderBG, { y: ['-100%'] }, { duration: 0 }];
+      const mainAnimate = [
+        splitMain.words,
+        { y: ['0%'] },
+        {
+          duration: 0,
+        },
+      ];
+      const subAnimate = [
+        splitSub.words,
+        { y: ['0%'] },
+        {
+          duration: 0,
+        },
+      ];
+
+      const sequence = [loaderBGAnimate, mainAnimate, subAnimate];
+      animate(sequence);
+      console.log('tags', mainTag, subTag);
+    }
   });
 </script>
 
@@ -121,8 +155,7 @@
   <meta name="Home" content="Explore the richness in global exploration" />
 </svelte:head>
 
-<div class="relative">
-  <Navigation />
+<div>
   <div>
     <Hero bind:mainTag bind:subTag bind:countryTag bind:countryCTA />
     <div class="mt-14 pb-10 bg-slate-50">
@@ -132,7 +165,8 @@
     <Footer />
   </div>
   <div
-    class="z-20 fixed top-0 left-0 w-screen overflow-hidden h-screen flex items-center justify-center"
+    bind:this={loaderBG}
+    class="z-50 fixed top-0 left-0 w-screen overflow-hidden h-screen flex items-center justify-center"
   >
     <div
       bind:this={loaderBG}

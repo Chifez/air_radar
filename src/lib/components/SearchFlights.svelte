@@ -1,4 +1,6 @@
 <script>
+  // @ts-nocheck
+
   import {
     CalendarRange,
     ChevronDown,
@@ -6,25 +8,43 @@
     PlaneTakeoff,
   } from 'lucide-svelte';
   import Button from './ui/button/button.svelte';
+  import { Label } from './ui/label';
+  import * as RadioGroup from '$lib/components/ui/radio-group';
+  // import { RadioGroup } from 'bits-ui';
 </script>
 
 <section class="px-6 md:px-10 py-2">
   <div
     class="space-y-4 w-full rounded-2xl p-6 my-10 flex flex-col justify-center bg-white"
   >
-    <form class="flex gap-4">
-      <div class="flex gap-4 items-center">
-        <p class="text-xs text-gray-500">Round Trip</p>
-        <ChevronDown size={14} strokeWidth={1.25} />
+    <form class="flex items-center justify-between">
+      <div class="flex gap-4">
+        <div class="flex gap-4 items-center">
+          <p class="text-xs text-gray-500">Round Trip</p>
+          <ChevronDown size={14} strokeWidth={1.25} />
+        </div>
+        <div class="flex gap-4 items-center">
+          <p class="text-xs text-gray-500">1 passenger</p>
+          <ChevronDown size={14} strokeWidth={1.25} />
+        </div>
+        <div class="flex gap-4 items-center">
+          <p class="text-xs text-gray-500">Bussiness & First</p>
+          <ChevronDown size={14} strokeWidth={1.25} />
+        </div>
       </div>
-      <div class="flex gap-4 items-center">
-        <p class="text-xs text-gray-500">1 passenger</p>
-        <ChevronDown size={14} strokeWidth={1.25} />
-      </div>
-      <div class="flex gap-4 items-center">
-        <p class="text-xs text-gray-500">Bussiness & First</p>
-        <ChevronDown size={14} strokeWidth={1.25} />
-      </div>
+      <RadioGroup.Root
+        value="default"
+        class="flex flex-row gap-2 text-xs font-normal"
+      >
+        <div class="flex items-center space-x-2">
+          <RadioGroup.Item value="default" id="r1" />
+          <Label for="r1" class="text-xs font-medium">Tracker</Label>
+        </div>
+        <div class="flex items-center space-x-2">
+          <RadioGroup.Item value="bookings" id="r2" />
+          <Label for="r2" class="text-xs font-medium">Bookings</Label>
+        </div>
+      </RadioGroup.Root>
     </form>
     <form
       action=""
