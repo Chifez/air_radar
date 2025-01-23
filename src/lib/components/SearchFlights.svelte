@@ -15,6 +15,42 @@
   // import { RadioGroup } from 'bits-ui';
   import AirportSelect from './shared/AirportSelect.svelte';
   import DateSelect from './shared/DateSelect.svelte';
+  import BookingOptions from './shared/BookingOptions.svelte';
+
+  let trip = [
+    { value: 'round trip', label: 'Round trip' },
+    { value: 'one way', label: 'One way' },
+  ];
+
+  let size = [
+    {
+      value: 'one',
+      label: 'One passenger',
+    },
+    {
+      value: 'Two',
+      label: 'Two passengers',
+    },
+    {
+      value: 'more',
+      label: '2+ passengers',
+    },
+  ];
+
+  let user_class = [
+    {
+      value: 'first',
+      label: 'First class',
+    },
+    {
+      value: 'bussiness',
+      label: 'Bussiness class',
+    },
+    {
+      value: 'economic',
+      label: 'Economy',
+    },
+  ];
 
   let current_tab = $state('tracker');
 
@@ -50,18 +86,9 @@
         </div>
       {:else}
         <div class="flex gap-4">
-          <div class="flex gap-4 items-center">
-            <p class="text-xs text-gray-500">Round Trip</p>
-            <ChevronDown size={14} strokeWidth={1.25} />
-          </div>
-          <div class="flex gap-4 items-center">
-            <p class="text-xs text-gray-500">1 passenger</p>
-            <ChevronDown size={14} strokeWidth={1.25} />
-          </div>
-          <div class="flex gap-4 items-center">
-            <p class="text-xs text-gray-500">Bussiness & First</p>
-            <ChevronDown size={14} strokeWidth={1.25} />
-          </div>
+          <BookingOptions options={trip} />
+          <BookingOptions options={size} />
+          <BookingOptions options={user_class} />
         </div>
       {/if}
 
