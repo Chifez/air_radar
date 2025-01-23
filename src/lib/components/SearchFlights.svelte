@@ -6,6 +6,7 @@
     ChevronDown,
     PlaneLanding,
     PlaneTakeoff,
+    ArrowLeftRight,
   } from 'lucide-svelte';
   import Button from './ui/button/button.svelte';
   import { Label } from './ui/label';
@@ -60,7 +61,13 @@
           </div>
         </span>
       </div>
-      <div class="flex items-center gap-2 p-4">
+      <div class="relative flex items-center gap-2 p-4">
+        <span
+          class="border p-1 rounded-full absolute top-[35%] bg-white -left-[6%]"
+        >
+          <ArrowLeftRight size={14} strokeWidth={1.25} />
+        </span>
+
         <PlaneLanding size={14} />
         <span class="font-semibold">
           <p class="text-[10px] text-gray-500">To</p>
