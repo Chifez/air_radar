@@ -1,6 +1,4 @@
-<script>
-  // @ts-nocheck
-
+<script lang="ts">
   import {
     CalendarRange,
     ChevronDown,
@@ -16,6 +14,9 @@
   import AirportSelect from './shared/AirportSelect.svelte';
   import DateSelect from './shared/DateSelect.svelte';
   import BookingOptions from './shared/BookingOptions.svelte';
+  import { activeTab } from './store';
+  import { TAB, type FlightTrackingParams } from '$lib/utils/types';
+  import { format } from 'date-fns';
 
   let trip = [
     { value: 'round trip', label: 'Round trip' },
@@ -52,26 +53,52 @@
     },
   ];
 
-  let current_tab = $state('tracker');
+  // let current_tab = $state($activeTab);
+
+  let searchvalue = {}; //make this a global value
 
   let departureDate = $state(new Date());
   let returnDate = $state(new Date());
 
-  function handleDepartureChange(date) {
-    departureDate = date;
+  function handleDepartureChange(date: Date) {
+    let departure = date
+      ? format(date, 'yyyy-MM-dd')
+      : format(departureDate, 'yyyy-MM-dd');
+
     console.log('Selected departure date:', date);
+    return (searchvalue = { ...searchvalue, departure_date: departure });
   }
 
-  function handleReturnChange(date) {
-    returnDate = date;
+  function handleReturnChange(date: Date) {
+    let arrival = date
+      ? format(date, 'yyyy-MM-dd')
+      : format(returnDate, 'yyyy-MM-dd');
     console.log('Selected return date:', date);
+    return (searchvalue = { ...searchvalue, arrival_date: arrival });
   }
 
-  const toggle = (value) => {
-    current_tab = value;
+  async function searchFlights(searchParams: FlightTrackingParams) {
+    console.log('search querys', searchParams);
+    console.log('search value', searchvalue);
+    // const queryString = new URLSearchParams(
+    //   Object.entries(searchParams).filter(([_, v]) => v != null)
+    // ).toString();
+
+    // try {
+    //   const response = await fetch(`/api/flights?${queryString}`);
+    //   if (!response.ok) throw new Error('Flight search failed');
+    //   return await response.json();
+    // } catch (error) {
+    //   console.error('Flight search error:', error);
+    //   return null;
+    // }
+  }
+
+  const toggle = (value: string) => {
+    $activeTab = value;
     console.log('value', value);
   };
-  $effect(() => console.log('current tab', current_tab));
+  // $effect(() => console.log('current tab', current_tab));
 </script>
 
 <section class="px-6 md:px-10 py-2">
@@ -79,10 +106,19 @@
     class="space-y-4 w-full rounded-2xl p-6 my-10 flex flex-col justify-center bg-white"
   >
     <form class="flex items-center justify-between">
-      {#if current_tab == 'tracker'}
+      {#if $activeTab == TAB.TRACKER}
         <div class="flex items-center gap-2">
           <Label class="text-xs">Flight ID:</Label>
-          <Input placeholder="Flight id" class="w-52 h-8 py-1 text-xs" />
+          <Input
+            placeholder="Flight id"
+            class="w-52 h-8 py-1 text-xs"
+            onchange={(e) => {
+              searchvalue = {
+                ...searchvalue,
+                flight_number: e.currentTarget.value,
+              };
+            }}
+          />
         </div>
       {:else}
         <div class="flex gap-4">
@@ -93,17 +129,17 @@
       {/if}
 
       <RadioGroup.Root
-        bind:value={current_tab}
+        bind:value={$activeTab}
         onValueChange={toggle}
         class="flex flex-row gap-2 text-xs font-normal"
       >
         <div class="flex items-center space-x-2">
-          <RadioGroup.Item value="tracker" id="r1" />
-          <Label for="r1" class="text-xs font-medium">Tracker</Label>
+          <RadioGroup.Item value={TAB.BOOKINGS} id="r2" />
+          <Label for="r2" class="text-xs font-medium">Bookings</Label>
         </div>
         <div class="flex items-center space-x-2">
-          <RadioGroup.Item value="bookings" id="r2" />
-          <Label for="r2" class="text-xs font-medium">Bookings</Label>
+          <RadioGroup.Item value={TAB.TRACKER} id="r1" />
+          <Label for="r1" class="text-xs font-medium">Tracker</Label>
         </div>
       </RadioGroup.Root>
     </form>
@@ -116,7 +152,8 @@
         <div>
           <AirportSelect
             label="From"
-            onChange={(airport) => {
+            onChange={(airport: any) => {
+              searchvalue = { ...searchvalue, departure_airport: airport.code };
               console.log('Selected departure airport:', airport);
               // Handle the selection
             }}
@@ -134,7 +171,8 @@
         <div>
           <AirportSelect
             label="To"
-            onChange={(airport) => {
+            onChange={(airport: any) => {
+              searchvalue = { ...searchvalue, arrival_airport: airport.code };
               console.log('Selected arrival airport:', airport);
               // Handle the selection
             }}
@@ -146,6 +184,7 @@
       <DateSelect label="Return Date" onChange={handleReturnChange} />
       <div class="w-full h-full flex items-center justify-center p-2">
         <Button
+          on:click={() => searchFlights(searchvalue)}
           class="bg-blue-600 hover:bg-blue-600 text-white w-full h-full text-lg"
           >Search Flights</Button
         >

@@ -33,6 +33,6 @@
     </div>
   </PopoverTrigger>
   <PopoverContent class="w-auto p-0">
-    <Calendar bind:value initialFocus />
+    <Calendar bind:value initialFocus onclick={() => onChange(value)} />
   </PopoverContent>
 </Popover>

@@ -139,11 +139,7 @@
 <section>
   <Label class="text-[10px] text-gray-500 font-semibold">{label}</Label>
 
-  <div
-    class="relative w-fit"
-    use:clickOutside
-    onclickoutside={handleClickOutside}
-  >
+  <div class="relative w-fit" use:clickOutside>
     <input
       type="text"
       bind:value={searchTerm}
@@ -153,9 +149,9 @@
       class="w-full text-sm cursor-pointer border py-2 px-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
-    {#if selectedAirport}
+    {#if selectedAirport !== null}
       <span class="absolute right-3 top-3 text-xs text-gray-500 font-medium">
-        {selectedAirport.code}
+        {selectedAirport['code']}
       </span>
     {/if}
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as Select from '$lib/components/ui/select/index.js';
 
-  let { options, label, placeholder = 'select an option' } = $props();
+  let { options } = $props();
 </script>
 
 <Select.Root portal={null}>

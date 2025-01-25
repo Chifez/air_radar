@@ -5,9 +5,18 @@
   import TopFlights from '$lib/components/TopFlights.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import { onMount } from 'svelte';
-  import { animate, stagger } from 'motion';
+  import {
+    animate,
+    stagger,
+    type AnimationSequence,
+    type Segment,
+  } from 'motion';
   import SplitType from 'split-type';
   import { Plane } from 'lucide-svelte';
+  import FlightInfo from '$lib/components/FlightInfo.svelte';
+  import { TAB } from '$lib/utils/types';
+  import { activeTab } from '$lib/components/store';
+  import FlightMain from '$lib/components/FlightMain.svelte';
 
   let mainTag: any;
   let subTag: any;
@@ -113,7 +122,7 @@
         },
       ];
 
-      const sequence = [
+      const sequence: AnimationSequence[] = [
         revealLoader,
         loaderTagAnimateIn,
         loaderPlaneAnimateIn,
@@ -124,7 +133,7 @@
         mainAnimate,
         subAnimate,
       ];
-      animate(sequence);
+      animate(sequence as Segment[]);
       console.log('tags', mainTag, subTag);
     } else {
       const loaderBGAnimate = [loaderBG, { y: ['-100%'] }, { duration: 0 }];
@@ -144,7 +153,7 @@
       ];
 
       const sequence = [loaderBGAnimate, mainAnimate, subAnimate];
-      animate(sequence);
+      animate(sequence as Segment[]);
       console.log('tags', mainTag, subTag);
     }
   });
@@ -159,8 +168,7 @@
   <div>
     <Hero bind:mainTag bind:subTag bind:countryTag bind:countryCTA />
     <div class="mt-14 pb-10 bg-slate-50">
-      <SearchFlights />
-      <TopFlights />
+      <FlightMain />
     </div>
     <Footer />
   </div>
