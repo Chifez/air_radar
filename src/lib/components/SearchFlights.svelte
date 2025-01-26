@@ -54,11 +54,21 @@
   ];
 
   // let current_tab = $state($activeTab);
-
+  let from_airport: { code: any } | null = $state(null);
+  let to_airport: { code: any } | null = $state(null);
   let searchvalue = {}; //make this a global value
 
   let departureDate = $state(new Date());
   let returnDate = $state(new Date());
+
+  const handleSwapAirports = () => {
+    [from_airport, to_airport] = [to_airport, from_airport];
+    searchvalue = {
+      ...searchvalue,
+      arrival_airport: to_airport,
+      departure_airport: from_airport,
+    };
+  };
 
   function handleDepartureChange(date: Date) {
     let departure = date
@@ -155,7 +165,11 @@
           <AirportSelect
             label="From"
             onChange={(airport: any) => {
-              searchvalue = { ...searchvalue, departure_airport: airport.code };
+              from_airport = airport;
+              searchvalue = {
+                ...searchvalue,
+                departure_airport: airport.code,
+              };
               console.log('Selected departure airport:', airport);
               // Handle the selection
             }}
@@ -164,7 +178,10 @@
       </div>
 
       <div class="relative flex items-center gap-2 py-1 px-4">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <span
+          onclick={handleSwapAirports}
           class="border p-1 rounded-full absolute top-[35%] bg-white -left-[6%]"
         >
           <ArrowLeftRight size={14} strokeWidth={1.25} />
@@ -174,7 +191,11 @@
           <AirportSelect
             label="To"
             onChange={(airport: any) => {
-              searchvalue = { ...searchvalue, arrival_airport: airport.code };
+              to_airport = airport;
+              searchvalue = {
+                ...searchvalue,
+                arrival_airport: airport.code,
+              };
               console.log('Selected arrival airport:', airport);
               // Handle the selection
             }}

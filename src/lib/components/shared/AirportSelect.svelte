@@ -54,7 +54,6 @@
           country: airport.country_name,
         }))
         .filter((airport: Airport) => airport.code && airport.city);
-      return airports;
     } catch (err) {
       error = err instanceof Error ? err.message : 'An unknown error occurred';
       console.error(error);
@@ -78,25 +77,23 @@
     }
   }
 
-  function handleClickOutside() {
-    isOpen = false;
-  }
-
   // Fetch airports when component mounts
-  onMount(fetchAirports);
+  onMount(() => {
+    fetchAirports();
+  });
 </script>
 
 <section>
   <Label class="text-[10px] text-gray-500 font-semibold">{label}</Label>
 
-  <div class="relative w-fit" use:clickOutside={handleClickOutside}>
+  <div class="relative w-fit" use:clickOutside={() => (isOpen = false)}>
     <input
       type="text"
       bind:value={searchTerm}
       onfocus={() => (isOpen = true)}
       oninput={handleInputChange}
       {placeholder}
-      class="w-full text-sm cursor-pointer border py-2 px-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full text-sm cursor-pointer text-ellipsis border py-2 pl-1 pr-10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
     {#if isLoading}
@@ -110,7 +107,9 @@
     {/if}
 
     {#if selectedAirport !== null}
-      <span class="absolute right-3 top-3 text-xs text-gray-500 font-medium">
+      <span
+        class="absolute h-full w-[20%] flex items-center justify-center text-center right-0 top-0 text-xs text-gray-500 font-medium"
+      >
         {selectedAirport.code}
       </span>
     {/if}
