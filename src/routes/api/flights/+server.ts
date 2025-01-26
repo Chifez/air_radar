@@ -15,10 +15,10 @@ export const GET: RequestHandler = async ({ url }) => {
 
   // Validate minimum required parameters
   const requiredParamsCount = Object.values(params).filter(Boolean).length;
-  if (requiredParamsCount < 3) {
+  if (requiredParamsCount < 1) {
     return new Response(
       JSON.stringify({
-        error: 'Provide at least 3 parameters for flight tracking',
+        error: 'Provide at least 1 parameters for flight tracking',
       }),
       {
         status: 400,
@@ -38,10 +38,13 @@ export const GET: RequestHandler = async ({ url }) => {
       queryParams.append('dep_iata', params.departure_airport);
     if (params.arrival_airport)
       queryParams.append('arr_iata', params.arrival_airport);
+    if (params.arrival_date)
+      queryParams.append('arr_scheduled_time_arr', params.arrival_date);
     if (params.departure_date)
-      queryParams.append('flight_date', params.departure_date);
+      queryParams.append('arr_scheduled_time_dep', params.departure_date);
 
     const apiUrl = `http://api.aviationstack.com/v1/flights?${queryParams.toString()}`;
+    // const apiUrl = `http://api.aviationstack.com/v1/flights?access_key=${env.API_KEY}`;
 
     const response = await fetch(apiUrl);
 
@@ -94,7 +97,7 @@ export const GET: RequestHandler = async ({ url }) => {
       })
     );
 
-    return new Response(JSON.stringify(processedFlights), {
+    return new Response(JSON.stringify(data.data), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {

@@ -80,18 +80,20 @@
   async function searchFlights(searchParams: FlightTrackingParams) {
     console.log('search querys', searchParams);
     console.log('search value', searchvalue);
-    // const queryString = new URLSearchParams(
-    //   Object.entries(searchParams).filter(([_, v]) => v != null)
-    // ).toString();
+    const queryString = new URLSearchParams(
+      Object.entries(searchParams).filter(([_, v]) => v != null)
+    ).toString();
 
-    // try {
-    //   const response = await fetch(`/api/flights?${queryString}`);
-    //   if (!response.ok) throw new Error('Flight search failed');
-    //   return await response.json();
-    // } catch (error) {
-    //   console.error('Flight search error:', error);
-    //   return null;
-    // }
+    try {
+      const response = await fetch(`/api/flights?${queryString}`);
+      if (!response.ok) throw new Error('Flight search failed');
+      const data = await response.json();
+      console.log('data', data);
+      return data;
+    } catch (error) {
+      console.error('Flight search error:', error);
+      return null;
+    }
   }
 
   const toggle = (value: string) => {
