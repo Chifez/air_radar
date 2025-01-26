@@ -3,6 +3,7 @@
   import { clickOutside } from '$lib/utils/click-outside';
   import { Label } from '../ui/label';
   import { env } from '$env/dynamic/public';
+  import { airportList } from '$lib/utils/data';
 
   // Airport interface for type safety
   interface Airport {
@@ -35,16 +36,16 @@
 
     try {
       // Replace with your actual Aviationstack API key
-      const API_KEY = '2683ae397de97ec69cbe30d844ad8168';
-      const response = await fetch(
-        `http://api.aviationstack.com/v1/airports?access_key=${API_KEY}&limit=100`
-      );
+      // const API_KEY = '2683ae397de97ec69cbe30d844ad8168';
+      // const response = await fetch(
+      //   `http://api.aviationstack.com/v1/airports?access_key=${API_KEY}&limit=100`
+      // );
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch airports');
-      }
+      // if (!response.ok) {
+      //   throw new Error('Failed to fetch airports');
+      // }
 
-      const data = await response.json();
+      const data = airportList;
       console.log('airports', data);
       // Transform API response to match our Airport interface
       airports = data.data

@@ -1,4 +1,6 @@
 import { env } from '$env/dynamic/private';
+import { mockFlights } from '$lib/utils/data';
+import { filterFlights } from '$lib/utils/helpers';
 import type { FlightData, FlightTrackingParams } from '$lib/utils/types';
 import type { RequestHandler } from './$types';
 
@@ -43,16 +45,17 @@ export const GET: RequestHandler = async ({ url }) => {
     if (params.departure_date)
       queryParams.append('arr_scheduled_time_dep', params.departure_date);
 
-    const apiUrl = `http://api.aviationstack.com/v1/flights?${queryParams.toString()}`;
+    // const apiUrl = `http://api.aviationstack.com/v1/flights?${queryParams.toString()}`;
     // const apiUrl = `http://api.aviationstack.com/v1/flights?access_key=${env.API_KEY}`;
 
-    const response = await fetch(apiUrl);
+    // const response = await fetch(apiUrl);
 
-    if (!response.ok) {
-      throw new Error('Flight data fetch failed');
-    }
+    const data = filterFlights(mockFlights, params);
+    // if (!response.ok) {
+    //   throw new Error('Flight data fetch failed');
+    // }
 
-    const data = await response.json();
+    // const data = await response.json();
 
     if (data.data.length === 0) {
       return new Response(
@@ -65,39 +68,37 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     // Process and filter results based on additional parameters
-    const filteredFlights = data.data.filter((flight: any) => {
-      const matchesDepartureCountry =
-        !params.departure_country ||
-        flight.departure.country.toLowerCase() ===
-          params.departure_country.toLowerCase();
+    // const filteredFlights = data.data.filter((flight: any) => {
+    //   const matchesDepartureCountry =
+    //     !params.departure_country ||
+    //     flight.departure.country.toLowerCase() ===
+    //       params.departure_country.toLowerCase();
 
-      const matchesArrivalCountry =
-        !params.arrival_country ||
-        flight.arrival.country.toLowerCase() ===
-          params.arrival_country.toLowerCase();
+    //   const matchesArrivalCountry =
+    //     !params.arrival_country ||
+    //     flight.arrival.country.toLowerCase() ===
+    //       params.arrival_country.toLowerCase();
 
-      return matchesDepartureCountry && matchesArrivalCountry;
-    });
+    //   return matchesDepartureCountry && matchesArrivalCountry;
+    // });
 
-    const processedFlights: FlightData[] = filteredFlights.map(
-      (flight: any) => ({
-        flight_number: flight.flight.iata,
-        departure: {
-          airport: flight.departure.airport,
-          country: flight.departure.country,
-          scheduled: flight.departure.scheduled,
-        },
-        arrival: {
-          airport: flight.arrival.airport,
-          country: flight.arrival.country,
-          scheduled: flight.arrival.scheduled,
-        },
-        airline: flight.airline.name,
-        status: flight.flight_status,
-      })
-    );
+    const processedFlights: FlightData[] = data.data.map((flight: any) => ({
+      flight_number: flight.flight.iata,
+      departure: {
+        airport: flight.departure.airport,
+        country: flight.departure.country,
+        scheduled: flight.departure.scheduled,
+      },
+      arrival: {
+        airport: flight.arrival.airport,
+        country: flight.arrival.country,
+        scheduled: flight.arrival.scheduled,
+      },
+      airline: flight.airline.name,
+      status: flight.flight_status,
+    }));
 
-    return new Response(JSON.stringify(data.data), {
+    return new Response(JSON.stringify(processedFlights), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
