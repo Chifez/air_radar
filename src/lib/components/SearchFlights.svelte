@@ -115,7 +115,7 @@
 
 <section class="px-6 md:px-10 py-2">
   <div
-    class="space-y-4 w-full rounded-2xl p-6 my-10 flex flex-col justify-center bg-white"
+    class="space-y-4 w-full rounded-2xl p-6 mt-10 mb-5 flex flex-col justify-center bg-white"
   >
     <form class="flex items-center justify-between">
       {#if $activeTab == TAB.TRACKER}
@@ -164,6 +164,7 @@
         <div>
           <AirportSelect
             label="From"
+            selectedAiport={from_airport}
             onChange={(airport: any) => {
               from_airport = airport;
               searchvalue = {
@@ -189,6 +190,7 @@
         <PlaneLanding size={14} />
         <div>
           <AirportSelect
+            selectedAiport={to_airport}
             label="To"
             onChange={(airport: any) => {
               to_airport = airport;

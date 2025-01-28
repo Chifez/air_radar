@@ -12,7 +12,12 @@
     country: string;
   }
 
-  let { placeholder = 'Select airport', label, onChange } = $props();
+  let {
+    placeholder = 'Select airport',
+    label,
+    onChange,
+    selectedAiport: initialSelectedAirport,
+  } = $props();
 
   let airports = $state<Airport[]>([]);
   let isLoading = $state(false);
@@ -20,7 +25,16 @@
 
   let isOpen = $state(false);
   let searchTerm = $state('');
-  let selectedAirport = $state<Airport | null>(null);
+  let selectedAirport = $state<Airport | null>(initialSelectedAirport || null);
+
+  $effect(() => {
+    selectedAirport = initialSelectedAirport || null;
+    if (selectedAirport) {
+      searchTerm = selectedAirport.city;
+    } else {
+      searchTerm = '';
+    }
+  });
 
   const filteredAirports = $derived(
     airports.filter(
