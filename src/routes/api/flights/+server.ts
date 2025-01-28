@@ -56,8 +56,8 @@ export const GET: RequestHandler = async ({ url }) => {
     // }
 
     // const data = await response.json();
-
-    if (data.data.length === 0) {
+    console.log('data from backend', data);
+    if (data && data.data.length === 0) {
       return new Response(
         JSON.stringify({ message: 'No flights found matching criteria' }),
         {
