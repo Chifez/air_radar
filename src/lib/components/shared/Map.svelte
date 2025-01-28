@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Map, Marker, Polyline, L } from 'leaflet';
+  import type { Map, Marker, Polyline } from 'leaflet';
   import { onMount } from 'svelte';
   import 'leaflet/dist/leaflet.css';
 
@@ -10,9 +10,11 @@
   let flightPath: Polyline;
 
   onMount(async () => {
+    const L = await import('leaflet');
+
     map = L.map('map').setView([36.2856, -106.807], 5);
 
-    L.titleLayer('https://{s}.title.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
     }).addTo(map);
 
