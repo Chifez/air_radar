@@ -38,6 +38,7 @@
   "dependencies": {
     "date-fns": "^4.1.0",
     "leaflet": "^1.9.4",
+    "leaflet-rotatedmarker": "^0.2.0",
     "motion": "^11.17.0",
     "split-type": "^0.3.4"
   }
