@@ -1,5 +1,8 @@
 <script>
+  import { ArrowRight, Plane } from 'lucide-svelte';
+  import Brand from './shared/Brand.svelte';
   import Map from './shared/Map.svelte';
+  import JsBarcode from 'jsbarcode';
 
   let flightData = [
     {
@@ -195,9 +198,11 @@
       },
     },
   ];
+
+  // $: JsBarcode('#barcode', 'Hi!');
 </script>
 
-<section class="flex flex-row gap-2 items-start mb-32 px-6 md:px-10 py-2">
+<section class="flex flex-row gap-2 mb-32 px-6 md:px-10 py-2">
   <div
     class="space-y-4 w-full rounded-2xl p-6 my-10 flex flex-col justify-center bg-white"
   >
@@ -205,11 +210,88 @@
   </div>
 
   <div
-    class="space-y-4 w-[30%] h-max rounded-2xl p-6 my-10 flex flex-col justify-center bg-white"
+    class="space-y-4 w-[30%] min-h-full rounded-2xl py-6 px-4 my-10 flex flex-col justify-start bg-white"
   >
-    <p>Flight Number</p>
-    <p>Departure Airport</p>
-    <p>Arrival Airport</p>
-    <p>Longitude and Latitude</p>
+    <div class="flex items-center justify-between text-center">
+      <p class="flex-1 text-center font-semibold text-sm">Flight Details</p>
+      <div class="flex-end bg-gray-300 rounded-lg p-2 cursor-pointer">
+        <ArrowRight strokeWidth={1.25} size={14} />
+      </div>
+    </div>
+    <div class="flex items-center justify-between border-b pt-4 pb-6">
+      <span class="font-mono">
+        <p class="font-medium text-sm">Japanese Airlines</p>
+        <p class="text-xs text-gray-400">Boeing-777 34(R)</p>
+      </span>
+      <Brand />
+    </div>
+
+    <div class="flex items-center justify-between gap-2 border-b pt-4 pb-6">
+      <span class="font-mono">
+        <p class="font-medium text-lg">CGK</p>
+        <p class="text-[11px] text-gray-400">Chicago Airport</p>
+        <p class="text-[9px] text-gray-400">10:00am</p>
+      </span>
+
+      <div class="plane">
+        <Plane fill="#1d4ed8" strokeWidth={0} size={20} />
+      </div>
+
+      <span class="font-mono">
+        <p class="font-medium text-lg">ORD</p>
+        <p class="text-[11px] text-gray-400">North-Carolina</p>
+        <p class="text-[9px] text-gray-400">3:00pm</p>
+      </span>
+    </div>
+
+    <div
+      class="flex flex-col items-center justify-between gap-8 border-b pt-4 pb-6 font-mono"
+    >
+      <div
+        class="w-full flex items-center justify-between text-[10px] text-gray-400"
+      >
+        <span class="space-y-1">
+          <p>Altitude</p>
+          <p class="text-sm font-medium text-black">3000 ft</p>
+        </span>
+        <span>
+          <p>Ground Speed</p>
+          <p class="text-sm font-medium text-black">200 km/s</p>
+        </span>
+        <span>
+          <p>Flight Time</p>
+          <p class="text-sm font-medium text-black">12:44pm</p>
+        </span>
+      </div>
+      <div
+        class="w-full flex items-center justify-between text-[10px] text-gray-400"
+      >
+        <span>
+          <p>Air Speed</p>
+          <p class="text-sm font-medium text-black">3300 kts</p>
+        </span>
+        <span>
+          <p>Time</p>
+          <p class="text-sm font-medium text-black">9:49am UTC</p>
+        </span>
+        <span class="flex flex-col items-center justify-center">
+          <p>Status</p>
+          <span
+            class="text-yellow-700 bg-yellow-200 text-sm font-medium py-1 px-2 rounded-xl"
+            >active</span
+          >
+        </span>
+      </div>
+    </div>
+    <img id="barcode" alt="barcode" />
   </div>
 </section>
+
+<style>
+  .plane {
+    transform-origin: center;
+    transition: all 2s ease-in-out;
+    opacity: 1;
+    transform: translate(0, 0) rotate(45deg);
+  }
+</style>

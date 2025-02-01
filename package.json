@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "jsbarcode": "^3.11.6",
     "leaflet": "^1.9.4",
     "leaflet-rotatedmarker": "^0.2.0",
     "motion": "^11.17.0",
