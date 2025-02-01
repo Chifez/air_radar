@@ -3,7 +3,7 @@
   import Brand from './shared/Brand.svelte';
   import Map from './shared/Map.svelte';
   import JsBarcode from 'jsbarcode';
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
 
   let currentIndex = 0;
   let flightData = [
@@ -202,7 +202,19 @@
   ];
 
   const goToNext = () => {
-    currentIndex += 1;
+    if (currentIndex < flightData.length - 1) {
+      currentIndex += 1;
+    } else {
+      currentIndex = 0;
+    }
+
+    const container = document.querySelector('.flight-scroll-container');
+    if (container) {
+      container.scrollTo({
+        left: container.offsetWidth * currentIndex,
+        behavior: 'smooth',
+      });
+    }
   };
 
   const getFlightStatusColor = (/** @type {string} */ status) => {
@@ -216,9 +228,11 @@
   };
 
   onMount(() => {
-    JsBarcode('#barcode', flightData[0].flight.iata, {
-      format: 'CODE128',
-      displayValue: true,
+    flightData.forEach((flight, index) => {
+      JsBarcode(`#barcode-${index}`, flight.flight.iata, {
+        format: 'CODE128',
+        displayValue: true,
+      });
     });
   });
 </script>
@@ -250,9 +264,11 @@
       </div>
     </div>
 
-    <div class="flex items-start min-w-full overflow-x-hidden">
-      {#each flightData as data}
-        <div class="min-w-full">
+    <div
+      class="flex items-start justify-between w-full whitespace-nowrap overflow-x-hidden flight-scroll-container"
+    >
+      {#each flightData as data, index}
+        <div class="min-w-full transition-transform duration-500">
           <div class="flex items-center justify-between border-b pt-4 pb-6">
             <span class="font-mono">
               <p class="font-medium text-sm">{data.airline.name}</p>
@@ -326,7 +342,7 @@
           </div>
 
           <div class="barcode-container flex justify-center py-4">
-            <svg id="barcode"></svg>
+            <svg id={`barcode-${index}`}></svg>
           </div>
         </div>
       {/each}
