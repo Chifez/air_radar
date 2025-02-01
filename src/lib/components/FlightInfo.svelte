@@ -3,7 +3,9 @@
   import Brand from './shared/Brand.svelte';
   import Map from './shared/Map.svelte';
   import JsBarcode from 'jsbarcode';
+  import { onMount } from 'svelte';
 
+  let currentIndex = 0;
   let flightData = [
     {
       flight_date: '2019-12-12',
@@ -199,7 +201,26 @@
     },
   ];
 
-  // $: JsBarcode('#barcode', 'Hi!');
+  const goToNext = () => {
+    currentIndex += 1;
+  };
+
+  const getFlightStatusColor = (/** @type {string} */ status) => {
+    if (status == 'active') {
+      return 'text-yellow-700 bg-yellow-200';
+    } else if (status == 'not-active') {
+      return 'text-red-700 bg-red-200';
+    } else {
+      return 'text-green-700 bg-green-200';
+    }
+  };
+
+  onMount(() => {
+    JsBarcode('#barcode', flightData[0].flight.iata, {
+      format: 'CODE128',
+      displayValue: true,
+    });
+  });
 </script>
 
 <section class="flex flex-row gap-2 mb-32 px-6 md:px-10 py-2">
@@ -213,77 +234,105 @@
     class="space-y-4 w-[30%] min-h-full rounded-2xl py-6 px-4 my-10 flex flex-col justify-start bg-white"
   >
     <div class="flex items-center justify-between text-center">
+      <div>
+        <p class="text-xs text-gray-400">
+          {currentIndex + 1} of {flightData.length}
+        </p>
+      </div>
       <p class="flex-1 text-center font-semibold text-sm">Flight Details</p>
-      <div class="flex-end bg-gray-300 rounded-lg p-2 cursor-pointer">
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div
+        class="flex-end bg-gray-300 rounded-lg p-2 cursor-pointer"
+        onclick={goToNext}
+      >
         <ArrowRight strokeWidth={1.25} size={14} />
       </div>
     </div>
-    <div class="flex items-center justify-between border-b pt-4 pb-6">
-      <span class="font-mono">
-        <p class="font-medium text-sm">Japanese Airlines</p>
-        <p class="text-xs text-gray-400">Boeing-777 34(R)</p>
-      </span>
-      <Brand />
-    </div>
 
-    <div class="flex items-center justify-between gap-2 border-b pt-4 pb-6">
-      <span class="font-mono">
-        <p class="font-medium text-lg">CGK</p>
-        <p class="text-[11px] text-gray-400">Chicago Airport</p>
-        <p class="text-[9px] text-gray-400">10:00am</p>
-      </span>
-
-      <div class="plane">
-        <Plane fill="#1d4ed8" strokeWidth={0} size={20} />
-      </div>
-
-      <span class="font-mono">
-        <p class="font-medium text-lg">ORD</p>
-        <p class="text-[11px] text-gray-400">North-Carolina</p>
-        <p class="text-[9px] text-gray-400">3:00pm</p>
-      </span>
-    </div>
-
-    <div
-      class="flex flex-col items-center justify-between gap-8 border-b pt-4 pb-6 font-mono"
-    >
-      <div
-        class="w-full flex items-center justify-between text-[10px] text-gray-400"
-      >
-        <span class="space-y-1">
-          <p>Altitude</p>
-          <p class="text-sm font-medium text-black">3000 ft</p>
-        </span>
-        <span>
-          <p>Ground Speed</p>
-          <p class="text-sm font-medium text-black">200 km/s</p>
-        </span>
-        <span>
-          <p>Flight Time</p>
-          <p class="text-sm font-medium text-black">12:44pm</p>
-        </span>
-      </div>
-      <div
-        class="w-full flex items-center justify-between text-[10px] text-gray-400"
-      >
-        <span>
-          <p>Air Speed</p>
-          <p class="text-sm font-medium text-black">3300 kts</p>
-        </span>
-        <span>
-          <p>Time</p>
-          <p class="text-sm font-medium text-black">9:49am UTC</p>
-        </span>
-        <span class="flex flex-col items-center justify-center">
-          <p>Status</p>
-          <span
-            class="text-yellow-700 bg-yellow-200 text-sm font-medium py-1 px-2 rounded-xl"
-            >active</span
+    <div class="flex items-start min-w-full overflow-x-hidden">
+      {#each flightData as data}
+        <div class="min-w-full">
+          <div class="flex items-center justify-between border-b pt-4 pb-6">
+            <span class="font-mono">
+              <p class="font-medium text-sm">{data.airline.name}</p>
+              <p class="text-xs text-gray-400">{data.aircraft.registration}</p>
+            </span>
+            <Brand />
+          </div>
+          <div
+            class="w-full flex items-center justify-between gap-2 border-b pt-4 pb-6"
           >
-        </span>
-      </div>
+            <span class="w-full font-mono">
+              <p class="font-medium text-lg">{data.departure.iata}</p>
+              <p class="text-[11px] text-gray-400">{data.departure.airport}</p>
+              <p class="text-[9px] text-gray-400">10:00am</p>
+            </span>
+
+            <div class="w-full flex items-center justify-center plane">
+              <Plane fill="#1d4ed8" strokeWidth={0} size={20} />
+            </div>
+
+            <span class="w-full font-mono">
+              <p class="font-medium text-lg">{data.arrival.iata}</p>
+              <p class="text-[11px] text-gray-400">{data.arrival.airport}</p>
+              <p class="text-[9px] text-gray-400">3:00pm</p>
+            </span>
+          </div>
+          <div
+            class="flex flex-col items-center justify-between gap-8 border-b pt-4 pb-6 font-mono"
+          >
+            <div
+              class="w-full flex items-start justify-between text-[10px] text-gray-400"
+            >
+              <span>
+                <p>Altitude</p>
+                <p class="text-sm font-medium text-black">
+                  {data.live.altitude} ft
+                </p>
+              </span>
+              <span>
+                <p>Ground Speed</p>
+                <p class="text-sm font-medium text-black">
+                  {data.live.speed_horizontal} km/s
+                </p>
+              </span>
+              <span>
+                <p>Flight Time</p>
+                <p class="text-sm font-medium text-black">12:44pm</p>
+              </span>
+            </div>
+            <div
+              class="w-full flex items-start justify-between text-[10px] text-gray-400"
+            >
+              <span>
+                <p>Air Speed</p>
+                <p class="text-sm font-medium text-black">
+                  {data.live.speed_horizontal} kts
+                </p>
+              </span>
+              <span>
+                <p>Time</p>
+                <p class="text-sm font-medium text-black">9:49am UTC</p>
+              </span>
+              <span class="flex flex-col items-center justify-center">
+                <p>Status</p>
+                <span
+                  class={`${getFlightStatusColor(data.flight_status)} text-sm font-medium py-1 px-2 rounded-xl`}
+                  >{data.flight_status}</span
+                >
+              </span>
+            </div>
+          </div>
+
+          <div class="barcode-container flex justify-center py-4">
+            <svg id="barcode"></svg>
+          </div>
+        </div>
+      {/each}
+
+      <!-- end -->
     </div>
-    <img id="barcode" alt="barcode" />
   </div>
 </section>
 
